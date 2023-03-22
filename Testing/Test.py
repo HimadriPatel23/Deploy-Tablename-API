@@ -82,16 +82,42 @@ def test_model(model, data, preprocess = False):
 
         categories = [f"{category}: {percentage}" for category, percentage in zip(sorted_categories, [percentage[cat] for cat in sorted_categories])]
 
-        # temp = []
-        # for i in categories:
-        #     cat, per = i.split()
 
-        #     if int()
+        temp_dict = {}
+        per_list = []
+        for category in categories:
+            per = int(category.split(":")[1].strip("%"))
+            cat = category.split(":")[0]
+            per_list.append(per)
+            temp_dict[per] = cat
+            
+            
+            max_num = max(per_list)
+            
+            final_per = []
+            if max_num > 53:
+                final_per.append(max_num)
+            # elif max_num >= 45 and max_num <= 55:
+            #     final_per = [num for num in per_list if num >= 45 and num <= 55]
+            else:
+                # final_per.append(max_num)
+                
+                min_num = max_num - 5
+                for p in per_list:
+                    if p >= min_num:
+                        final_per.append(p)
+                
+            selected_categories = []
+            for i in final_per:
+                sl_cat = temp_dict[i]
+                selected_categories.append(sl_cat)
+
+
 
 
         result = result.append({
             'TableName': table_name,
-            'Category': max_category,
+            'Category': selected_categories,
             'Categories': categories
         }, ignore_index=True)
 
